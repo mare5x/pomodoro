@@ -1,0 +1,25 @@
+|------------------------------------
+|
+|
+|   normal      brake       long brake
+|
+|               25 mins
+|
+|
+|
+|             start / stop
+|
+|------------------------------------
+
+
+settings:
+    change times
+    change timer sound
+
+shortcuts
+lightweight
+
+lockdown during timer with whitelist and blacklist
+
+
+automatic transition between modes (normal -> brake -> normal ...)

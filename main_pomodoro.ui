@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>350</width>
+    <height>193</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Simple Pomodoro</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="elideMode">
+      <enum>Qt::ElideNone</enum>
+     </property>
+     <property name="usesScrollButtons">
+      <bool>false</bool>
+     </property>
+     <property name="documentMode">
+      <bool>true</bool>
+     </property>
+     <property name="tabsClosable">
+      <bool>false</bool>
+     </property>
+     <property name="movable">
+      <bool>false</bool>
+     </property>
+     <widget class="QWidget" name="normPTab">
+      <attribute name="title">
+       <string>Normal Pomodoro</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="timerNormLabel">
+         <property name="font">
+          <font>
+           <pointsize>51</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>25:00</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="indent">
+          <number>-1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="toggleNormButton">
+         <property name="font">
+          <font>
+           <pointsize>21</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+           <kerning>true</kerning>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+background-color: rgb(0, 255, 0);</string>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="shortPTab">
+      <attribute name="title">
+       <string>Short break</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="timerShortLabel">
+         <property name="font">
+          <font>
+           <pointsize>51</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>05:00</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="toggleShortButton">
+         <property name="font">
+          <font>
+           <pointsize>21</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+background-color: rgb(0, 255, 0);</string>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="longPTab">
+      <attribute name="title">
+       <string>Long break</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="timerLongLabel">
+         <property name="font">
+          <font>
+           <pointsize>51</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>10:00</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="toggleLongButton">
+         <property name="font">
+          <font>
+           <pointsize>21</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+background-color: rgb(0, 255, 0);</string>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="optionsTab">
+      <attribute name="title">
+       <string>Options</string>
+      </attribute>
+      <widget class="QTimeEdit" name="normTimeEdit">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>20</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="time">
+        <time>
+         <hour>0</hour>
+         <minute>25</minute>
+         <second>0</second>
+        </time>
+       </property>
+       <property name="currentSection">
+        <enum>QDateTimeEdit::MinuteSection</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Normal pomodoro: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Short break:</string>
+       </property>
+      </widget>
+      <widget class="QTimeEdit" name="shortTimeEdit">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>60</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="time">
+        <time>
+         <hour>0</hour>
+         <minute>5</minute>
+         <second>0</second>
+        </time>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>100</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Long break:</string>
+       </property>
+      </widget>
+      <widget class="QTimeEdit" name="longTimeEdit">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>100</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="time">
+        <time>
+         <hour>0</hour>
+         <minute>10</minute>
+         <second>0</second>
+        </time>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="normSoundBox">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>20</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="shortSoundBox">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>60</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="longSoundBox">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>100</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
