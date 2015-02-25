@@ -23,3 +23,10 @@ lockdown during timer with whitelist and blacklist
 
 
 automatic transition between modes (normal -> brake -> normal ...)
+
+
+/convert time to seconds -> subtract 1 second -> return hours, mins, seconds
+use QTime for everything
+
+hide start button when on options tab
+

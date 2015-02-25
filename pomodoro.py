@@ -9,16 +9,43 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         super().__init__(parent)
         self.setupUi(self)
 
-        self.normal_value = 25 * 60 * 60  # 25 mins in ms
+        self.timer = Timer()
 
-    def time_to_ms(self):
-        pass
+        self.norm_time = self.normTimeEdit.time()
+        self.short_time = self.shortTimeEdit.time()
+        self.long_time = self.longTimeEdit.time()
+
+        self.timerNormLabel.setText(self.norm_time.toString())
+        self.timerShortLabel.setText(self.short_time.toString())
+        self.timerLongLabel.setText(self.long_time.toString())
+
+        self.timerButton.clicked.connect(self.toggle_timer)
+        self.tabWidget.currentChanged.connect(self.on_options_tab)
+
+    def on_options_tab(self):
+        if self.tabWidget.currentIndex() == 3:  # hide the button on options tab
+            self.timerButton.hide()
+            return True
+        else:
+            self.timerButton.show()
+            return False
 
     def apply_options(self):
-        pass
+        self.norm_time = self.normTimeEdit.time()  # -> QTime
+        self.short_time = self.shortTimeEdit.time()
+        self.long_time = self.longTimeEdit.time()
 
     def toggle_timer(self):
-        pass
+        self.apply_options()
+
+        if self.tabWidget.currentIndex() == 1:
+            self.timer.secs_to_run = self.timer.time_to_s(self.norm_time)
+        elif self.tabWidget.currentIndex() == 2:
+            self.timer.secs_to_run = self.timer.time_to_s(self.short_time)
+        else:
+            self.timer.secs_to_run = self.timer.time_to_s(self.long_time)
+
+        self.timer.start()
 
     def update_timer_label(self):
         pass
@@ -29,7 +56,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         # transition and keep track of normal -> break -> ...
 
 
-class TimeElapsedThread(QThread):
+class Timer(QObject):
     """
     Thread for continuous time tracking.
     Emits a secElapsed signal after each second.
@@ -41,15 +68,15 @@ class TimeElapsedThread(QThread):
         super().__init__(parent)
 
         self.set_time_to_zero()
-        self.exit = False  # for safe exiting  -  not stuck in while loop
+        self.secs_to_run = 25 * 60  # 25 mins to secs - default
 
-    def run(self):
+    def start(self):
         timer = QElapsedTimer()
         timer.start()
 
-        while not self.exit:
+        while self.secs_to_run > 0:
             if timer.hasExpired(1000):  # 1 seconds expired
-                self.secs_elapsed += 1  # secs_elapsed instead of secs because secs is recalculated
+                self.secs_to_run -= 1
                 self.set_time_elapsed()  # don't calculate from ms because we always restart the timer
                 self.secElapsed.emit()
                 timer.restart()
@@ -60,11 +87,14 @@ class TimeElapsedThread(QThread):
         """
         # divmod = divide and modulo -- divmod(1200 / 1000)  =  (1, 200)
         # [0] = division, [1] = remainder(modulo)
-        self.mins, self.secs = divmod(self.secs_elapsed, 60)  # s to min
+        self.mins, self.secs = divmod(self.secs_to_run, 60)  # s to min
         self.hours, self.mins = divmod(self.mins, 60)  # min to h
 
     def set_time_to_zero(self):
-        self.secs_elapsed, self.secs, self.mins, self.hours = 0, 0, 0, 0
+        self.secs_to_run, self.secs, self.mins, self.hours = 25 * 60, 0, 0, 0
+
+    def time_to_s(self, time):
+        return (time.hour() * 60 * 60) + (time.minute() * 60) + (time.second())
 
 
 if __name__ == "__main__":
