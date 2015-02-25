@@ -30,3 +30,5 @@ use QTime for everything
 
 hide start button when on options tab
 
+only 1 timer can be active at a time
+

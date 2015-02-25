@@ -9,7 +9,8 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         super().__init__(parent)
         self.setupUi(self)
 
-        self.timer = Timer()
+        self.time_options = TimeOptions()
+        self.timer = TimerThread()
 
         self.norm_time = self.normTimeEdit.time()
         self.short_time = self.shortTimeEdit.time()
@@ -21,6 +22,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
 
         self.timerButton.clicked.connect(self.toggle_timer)
         self.tabWidget.currentChanged.connect(self.on_options_tab)
+        self.timer.secElapsed.connect(self.update_timer_label)
 
     def on_options_tab(self):
         if self.tabWidget.currentIndex() == 3:  # hide the button on options tab
@@ -38,14 +40,23 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
     def toggle_timer(self):
         self.apply_options()
 
-        if self.tabWidget.currentIndex() == 1:
-            self.timer.secs_to_run = self.timer.time_to_s(self.norm_time)
-        elif self.tabWidget.currentIndex() == 2:
-            self.timer.secs_to_run = self.timer.time_to_s(self.short_time)
+        if self.tabWidget.currentIndex() == 0:  # 1st tab starts at 0th index
+            self.timer.secs_to_run = self.time_options.time_to_secs(self.norm_time)
+        elif self.tabWidget.currentIndex() == 1:
+            self.timer.secs_to_run = self.time_options.time_to_secs(self.short_time)
         else:
-            self.timer.secs_to_run = self.timer.time_to_s(self.long_time)
+            self.timer.secs_to_run = self.time_options.time_to_secs(self.long_time)
 
-        self.timer.start()
+        if self.timer.is_running:
+            self.timerButton.setText("Start")
+            self.timerButton.setStyleSheet("background-color: rgb(0, 255, 0);")
+            self.timer.is_running = False
+            self.timer.quit()
+        else:
+            self.timerButton.setText("Stop")
+            self.timerButton.setStyleSheet("background-color: rgb(255, 0, 0);")
+            self.timer.is_running = True
+            self.timer.start()
 
     def update_timer_label(self):
         pass
@@ -56,30 +67,9 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         # transition and keep track of normal -> break -> ...
 
 
-class Timer(QObject):
-    """
-    Thread for continuous time tracking.
-    Emits a secElapsed signal after each second.
-    """
-
-    secElapsed = Signal()
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
+class TimeOptions:
+    def __init__(self):
         self.set_time_to_zero()
-        self.secs_to_run = 25 * 60  # 25 mins to secs - default
-
-    def start(self):
-        timer = QElapsedTimer()
-        timer.start()
-
-        while self.secs_to_run > 0:
-            if timer.hasExpired(1000):  # 1 seconds expired
-                self.secs_to_run -= 1
-                self.set_time_elapsed()  # don't calculate from ms because we always restart the timer
-                self.secElapsed.emit()
-                timer.restart()
 
     def set_time_elapsed(self):
         """
@@ -93,8 +83,32 @@ class Timer(QObject):
     def set_time_to_zero(self):
         self.secs_to_run, self.secs, self.mins, self.hours = 25 * 60, 0, 0, 0
 
-    def time_to_s(self, time):
+    def time_to_secs(self, time):
         return (time.hour() * 60 * 60) + (time.minute() * 60) + (time.second())
+
+
+class TimerThread(QThread):
+    """
+    Thread for time tracking.
+    Emits a secElapsed signal each second.
+    """
+
+    secElapsed = Signal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.secs_to_run = 25 * 60  # 25 mins to secs - default
+        self.is_running = False
+
+    def run(self):
+        timer = QElapsedTimer()
+        timer.start()
+
+        while self.secs_to_run > 0 and self.is_running:
+            if timer.hasExpired(1000):  # 1 seconds expired
+                self.secs_to_run -= 1
+                self.secElapsed.emit()
+                timer.restart()
 
 
 if __name__ == "__main__":
