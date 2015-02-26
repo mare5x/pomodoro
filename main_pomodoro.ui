@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>174</height>
+    <height>208</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -117,28 +117,7 @@
        <string>Options</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="1" column="2">
-        <widget class="QComboBox" name="shortSoundBox"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QTimeEdit" name="shortTimeEdit">
-         <property name="time">
-          <time>
-           <hour>0</hour>
-           <minute>5</minute>
-           <second>0</second>
-          </time>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Normal pomodoro: </string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
+       <item row="3" column="2">
         <widget class="QTimeEdit" name="longTimeEdit">
          <property name="time">
           <time>
@@ -149,14 +128,32 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="2">
+        <widget class="QTimeEdit" name="shortTimeEdit">
+         <property name="time">
+          <time>
+           <hour>0</hour>
+           <minute>5</minute>
+           <second>0</second>
+          </time>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Normal pomodoro: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Short break:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="1" column="2">
         <widget class="QTimeEdit" name="normTimeEdit">
          <property name="time">
           <time>
@@ -170,17 +167,63 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QComboBox" name="normSoundBox"/>
-       </item>
-       <item row="2" column="2">
-        <widget class="QComboBox" name="longSoundBox"/>
-       </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Long break:</string>
          </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Select sound:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QComboBox" name="soundBox">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <item>
+          <property name="text">
+           <string>Wrist watch Alarm</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Door Bell</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Alarm Clock</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Elevator Ding</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Rooster crow</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>None</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
