@@ -12,32 +12,36 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         self.time_options = TimeOptions()
         self.timer = TimerThread()
 
-        self.apply_options()
-
         self.active_label = None
 
-        self.timerButton.clicked.connect(self.toggle_timerButton)
+        self.apply_options()
+
+        self.soundBox.currentIndexChanged.connect(self.play_select_sound)
         self.tabWidget.currentChanged.connect(self.hide_button_on_options_tab)
+        self.tabWidget.currentChanged.connect(self.apply_options)
+        self.timerButton.clicked.connect(self.toggle_timerButton)
         self.timer.secElapsed.connect(self.update_active_label)
-        self.timer.timerFinished.connect(self.toggle_timerButton)
         self.timer.timerFinished.connect(self.play_select_sound)
 
     def hide_button_on_options_tab(self):
         if self.tabWidget.currentIndex() == 3:  # hide the button on options tab
             self.timerButton.hide()
-            return True
         else:
             self.timerButton.show()
-            return False
 
     def apply_options(self):
         self.norm_time = self.normTimeEdit.time()  # -> QTime
         self.short_time = self.shortTimeEdit.time()
         self.long_time = self.longTimeEdit.time()
 
-        self.timerNormLabel.setText(self.norm_time.toString())
-        self.timerShortLabel.setText(self.short_time.toString())
-        self.timerLongLabel.setText(self.long_time.toString())
+        inactive_labels = [inactive_label for inactive_label in
+                          [(self.timerNormLabel, self.norm_time),
+                           (self.timerShortLabel, self.short_time),
+                           (self.timerLongLabel, self.long_time)]
+                          if inactive_label[0] != self.active_label]
+
+        for label in inactive_labels:
+            label[0].setText(label[1].toString())
 
     def secs_to_run_and_active_label(self):
         """ Determines secs_to_run and the current active label.
@@ -53,8 +57,8 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             self.active_label = self.timerLongLabel
 
     def toggle_timerButton(self):
-        self.apply_options()
         self.secs_to_run_and_active_label()
+        self.apply_options()
 
         if self.timer.is_running:
             self.timerButton.setText("Start")
@@ -77,23 +81,23 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         # transition and keep track of normal -> break -> ...
 
     def play_select_sound(self):
-        play_sound = {
-            0: QSound.play("Sounds/wristwatch.wav"),
-            1: QSound.play("Sounds/doorbell.wav"),
-            2: QSound.play("Sounds/alarm.wav"),
-            3: QSound.play("Sounds/elevator.wav"),
-            4: QSound.play("Sounds/crow.wav"),
+        sounds = {
+            0: "Sounds/wristwatch.wav",
+            1: "Sounds/doorbell.wav",
+            2: "Sounds/alarm.wav",
+            3: "Sounds/elevator.wav",
+            4: "Sounds/crow.wav",
             5: None
         }
-        # play_sound[self.soundBox.currentIndex()]
-        play_sound[0]
+        QSound.play(sounds[self.soundBox.currentIndex()])
 
 
 class TimeOptions:
     def __init__(self):
         self.set_time_to_zero()
 
-    def secs_to_time(self, secs):
+    @staticmethod
+    def secs_to_time(secs):
         """
         Calculate elapsed hours, minutes, seconds.
         """
@@ -106,7 +110,8 @@ class TimeOptions:
     def set_time_to_zero(self):
         self.secs_to_run, self.secs, self.mins, self.hours = 25 * 60, 0, 0, 0
 
-    def time_to_secs(self, time):
+    @staticmethod
+    def time_to_secs(time):
         return (time.hour() * 60 * 60) + (time.minute() * 60) + (time.second())
 
 
@@ -134,7 +139,7 @@ class TimerThread(QThread):
                 self.secElapsed.emit()
                 timer.restart()
 
-        self.timerFinished.emit()
+        if self.secs_to_run == 0: self.timerFinished.emit()
 
 
 if __name__ == "__main__":

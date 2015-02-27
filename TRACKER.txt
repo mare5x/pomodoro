@@ -33,3 +33,6 @@ hide start button when on options tab
 only 1 timer can be active at a time
 
 hide app to taskbar when is_running
+
+
+if not playing and i leave tab 3 update all labels with new data else update all labels except the one that is playing
