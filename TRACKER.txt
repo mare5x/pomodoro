@@ -36,3 +36,10 @@ hide app to taskbar when is_running
 
 
 if not playing and i leave tab 3 update all labels with new data else update all labels except the one that is playing
+
+
+if timer is done, change to next tab and automatically run the associated timer
+if stop is clicked reset pomodoro counter
+also reset pomodoro when one whole set is finished(p->s->p->s->p->s->l)
+
+add option for auto transitions in options.

@@ -226,6 +226,16 @@
          </item>
         </widget>
        </item>
+       <item row="5" column="1" colspan="2">
+        <widget class="QCheckBox" name="transitionCheckBox">
+         <property name="text">
+          <string>Auto transition between modes?</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -247,6 +257,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>normTimeEdit</tabstop>
+  <tabstop>shortTimeEdit</tabstop>
+  <tabstop>longTimeEdit</tabstop>
+  <tabstop>soundBox</tabstop>
+  <tabstop>timerButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

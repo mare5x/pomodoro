@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\main_pomodoro.ui'
 #
-# Created: Thu Feb 26 20:11:06 2015
+# Created: Fri Feb 27 19:07:30 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -104,6 +104,10 @@ class Ui_Form(object):
         self.soundBox.addItem("")
         self.soundBox.addItem("")
         self.gridLayout_5.addWidget(self.soundBox, 4, 2, 1, 1)
+        self.transitionCheckBox = QtGui.QCheckBox(self.optionsTab)
+        self.transitionCheckBox.setChecked(True)
+        self.transitionCheckBox.setObjectName("transitionCheckBox")
+        self.gridLayout_5.addWidget(self.transitionCheckBox, 5, 1, 1, 2)
         self.tabWidget.addTab(self.optionsTab, "")
         self.verticalLayout.addWidget(self.tabWidget)
         self.timerButton = QtGui.QPushButton(Form)
@@ -117,6 +121,10 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.normTimeEdit, self.shortTimeEdit)
+        Form.setTabOrder(self.shortTimeEdit, self.longTimeEdit)
+        Form.setTabOrder(self.longTimeEdit, self.soundBox)
+        Form.setTabOrder(self.soundBox, self.timerButton)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Simple Pomodoro", None, QtGui.QApplication.UnicodeUTF8))
@@ -136,6 +144,7 @@ class Ui_Form(object):
         self.soundBox.setItemText(3, QtGui.QApplication.translate("Form", "Elevator Ding", None, QtGui.QApplication.UnicodeUTF8))
         self.soundBox.setItemText(4, QtGui.QApplication.translate("Form", "Rooster crow", None, QtGui.QApplication.UnicodeUTF8))
         self.soundBox.setItemText(5, QtGui.QApplication.translate("Form", "None", None, QtGui.QApplication.UnicodeUTF8))
+        self.transitionCheckBox.setText(QtGui.QApplication.translate("Form", "Auto transition between modes?", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), QtGui.QApplication.translate("Form", "Options", None, QtGui.QApplication.UnicodeUTF8))
         self.timerButton.setText(QtGui.QApplication.translate("Form", "Start", None, QtGui.QApplication.UnicodeUTF8))
 
