@@ -10,11 +10,15 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>208</height>
+    <height>231</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Simple Pomodoro</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/Icons/tomato.png</normaloff>:/Icons/tomato.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -264,6 +268,8 @@
   <tabstop>soundBox</tabstop>
   <tabstop>timerButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

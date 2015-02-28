@@ -3,6 +3,7 @@ from PySide.QtGui import *
 import main_pomodoro
 import sys
 import time
+import ctypes
 
 
 class Pomodoro(QWidget, main_pomodoro.Ui_Form):
@@ -16,6 +17,11 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         self.active_label = None, None  # (label, "name")
         self.pomodoros = 0
 
+        self.tray_icon = QSystemTrayIcon(self)
+        self.tray_icon.setIcon(QIcon("Icons/tomato.png"))
+        self.tray_icon.activated.connect(self.restore_tray)
+        self.tray_icon.messageClicked.connect(self.restore_tray)
+
         self.apply_options()
 
         self.soundBox.currentIndexChanged.connect(self.play_select_sound)
@@ -26,6 +32,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         self.timer.secElapsed.connect(self.update_active_label)
         self.timer.timerFinished.connect(self.play_select_sound)
         self.timer.timerFinished.connect(self.next_transition)
+        self.timer.timerFinished.connect(self.timer_finished_notification)
 
     def hide_button_on_options_tab(self):
         if self.tabWidget.currentIndex() == 3:  # hide the button on options tab
@@ -116,6 +123,24 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         }
         QSound.play(sounds[self.soundBox.currentIndex()])
 
+    def timer_finished_notification(self):
+        if self.windowState() & Qt.WindowMinimized:
+            self.tray_icon.showMessage("Done", "Pomodoro timer finished.")
+
+    def restore_tray(self, reason=None):
+        if reason == QSystemTrayIcon.Trigger or reason == None:
+            self.show()
+            self.setWindowState(Qt.WindowActive)
+            self.tray_icon.hide()
+
+    def changeEvent(self, event):
+        if event.type() == QEvent.WindowStateChange:
+            if self.windowState() & Qt.WindowMinimized:
+                event.ignore()
+                QTimer.singleShot(0, self.hide)  # minimize to tray asap
+                self.tray_icon.show()
+                self.tray_icon.showMessage("Minimized", "The app is minimized. Click on the icon to maximize.")
+
 
 class TimeOptions:
 
@@ -158,6 +183,9 @@ class TimerThread(QThread):
 
 
 if __name__ == "__main__":
+    myappid = 'Marko.pomodoro.python.1'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
     app = QApplication(sys.argv)
     form = Pomodoro()
     form.show()

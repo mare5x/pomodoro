@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\main_pomodoro.ui'
 #
-# Created: Fri Feb 27 19:07:30 2015
+# Created: Sat Feb 28 13:44:49 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,10 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.setEnabled(True)
-        Form.resize(350, 208)
+        Form.resize(350, 231)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/Icons/tomato.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Form.setWindowIcon(icon)
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tabWidget = QtGui.QTabWidget(Form)
@@ -148,3 +151,4 @@ class Ui_Form(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), QtGui.QApplication.translate("Form", "Options", None, QtGui.QApplication.UnicodeUTF8))
         self.timerButton.setText(QtGui.QApplication.translate("Form", "Start", None, QtGui.QApplication.UnicodeUTF8))
 
+import icons_rc
