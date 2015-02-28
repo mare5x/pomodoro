@@ -116,10 +116,6 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         }
         QSound.play(sounds[self.soundBox.currentIndex()])
 
-    def hideEvent(self, event):
-        self.hide()
-        print('hide event')
-
 
 class TimeOptions:
 
