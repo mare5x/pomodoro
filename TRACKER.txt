@@ -48,3 +48,7 @@ add option for auto transitions in options.
 Minimize to taskbar
 
 HIGH CPU USAGE - TIMER
+
+
+short delay between transitions
+planner mode - set start and end time

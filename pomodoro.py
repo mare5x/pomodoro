@@ -2,7 +2,6 @@ from PySide.QtCore import *
 from PySide.QtGui import *
 import main_pomodoro
 import sys
-import time
 import ctypes
 
 
@@ -176,7 +175,7 @@ class TimerThread(QThread):
 
     def run(self):
         while self.secs_to_run > 0 and self.is_running:
-            time.sleep(1)
+            self.sleep(1)
             if self.is_running: self.secs_to_run -= 1; self.secElapsed.emit()  # when stopped it would run otherwise
 
         if self.secs_to_run == 0: self.timerFinished.emit()
