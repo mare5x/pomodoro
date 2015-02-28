@@ -2,6 +2,7 @@ from PySide.QtCore import *
 from PySide.QtGui import *
 import main_pomodoro
 import sys
+import time
 
 
 class Pomodoro(QWidget, main_pomodoro.Ui_Form):
@@ -104,8 +105,6 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             self.apply_options()
             self.timer.start()
 
-            print(self.pomodoros)
-
     def play_select_sound(self):
         sounds = {
             0: "Sounds/wristwatch.wav",
@@ -116,6 +115,10 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             5: None
         }
         QSound.play(sounds[self.soundBox.currentIndex()])
+
+    def hideEvent(self, event):
+        self.hide()
+        print('hide event')
 
 
 class TimeOptions:
@@ -151,14 +154,9 @@ class TimerThread(QThread):
         self.is_running = False
 
     def run(self):
-        timer = QElapsedTimer()
-        timer.start()
-
         while self.secs_to_run > 0 and self.is_running:
-            if timer.hasExpired(1000):  # 1 seconds expired
-                self.secs_to_run -= 1
-                self.secElapsed.emit()
-                timer.restart()
+            time.sleep(1)
+            if self.is_running: self.secs_to_run -= 1; self.secElapsed.emit()  # when stopped it would run otherwise
 
         if self.secs_to_run == 0: self.timerFinished.emit()
 

@@ -43,3 +43,8 @@ if stop is clicked reset pomodoro counter
 also reset pomodoro when one whole set is finished(p->s->p->s->p->s->l)
 
 add option for auto transitions in options.
+
+
+Minimize to taskbar
+
+HIGH CPU USAGE - TIMER
