@@ -52,3 +52,6 @@ HIGH CPU USAGE - TIMER
 
 short delay between transitions
 planner mode - set start and end time
+
+
+Change done notification to tell which timer was done.

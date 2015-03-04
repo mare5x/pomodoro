@@ -30,8 +30,8 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
 
         self.timer.secElapsed.connect(self.update_active_label)
         self.timer.timerFinished.connect(self.play_select_sound)
-        self.timer.timerFinished.connect(self.next_transition)
         self.timer.timerFinished.connect(self.timer_finished_notification)
+        self.timer.timerFinished.connect(self.next_transition)
 
     def hide_button_on_options_tab(self):
         if self.tabWidget.currentIndex() == 3:  # hide the button on options tab
@@ -40,6 +40,8 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             self.timerButton.show()
 
     def apply_options(self):
+        """ Update all labels except the active one with times from the options tab.
+        """
         self.norm_time = self.normTimeEdit.time()  # -> QTime
         self.short_time = self.shortTimeEdit.time()
         self.long_time = self.longTimeEdit.time()
@@ -59,13 +61,13 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         """
         if self.tabWidget.currentIndex() == 0:  # 1st tab starts at 0th index
             self.timer.secs_to_run = self.time_options.time_to_secs(self.norm_time)
-            self.active_label = (self.timerNormLabel, "pomodoro")
+            self.active_label = (self.timerNormLabel, "Pomodoro")
         elif self.tabWidget.currentIndex() == 1:
             self.timer.secs_to_run = self.time_options.time_to_secs(self.short_time)
-            self.active_label = (self.timerShortLabel, "short")
+            self.active_label = (self.timerShortLabel, "Short")
         else:
             self.timer.secs_to_run = self.time_options.time_to_secs(self.long_time)
-            self.active_label = (self.timerLongLabel, "long")
+            self.active_label = (self.timerLongLabel, "Long")
 
     def toggle_timerButton(self):
         self.secs_to_run_and_active_label()
@@ -81,7 +83,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             self.timerButton.setText("Stop")
             self.timerButton.setStyleSheet("background-color: rgb(255, 0, 0);")
             self.timer.is_running = True
-            if self.transitionCheckBox.isChecked(): self.next_transition()
+            if self.transitionCheckBox.isChecked(): self.next_transition(with_button=True)
             else: self.timer.start()
 
     def update_active_label(self):
@@ -89,26 +91,31 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         time = self.time_options.secs_to_time(self.timer.secs_to_run)
         self.active_label[0].setText(time.toString())
 
-    def next_transition(self):
+    def next_transition(self, with_button=False):
         # transition and keep track of normal -> break -> ...
         # if self.pomodoros < 4:  # long brake after 4; we start at 0 so 4 is 0,1,2,3
+        # self.pomodoros is incremented only if it just finished a pomodoro
         if self.transitionCheckBox.isChecked():
             if self.pomodoros == 0:
                 self.tabWidget.setCurrentIndex(0)
                 self.pomodoros += 1
-            elif self.active_label[1] == "pomodoro" and self.pomodoros != 4:
+            elif self.active_label[1] == "Pomodoro" and self.pomodoros != 4:
                 self.tabWidget.setCurrentIndex(1)
                 self.pomodoros += 1
-            elif self.active_label[1] == "short":
+            elif self.active_label[1] == "Short":
                 self.tabWidget.setCurrentIndex(0)
-            elif self.active_label[1] == "long":
+            elif self.active_label[1] == "Long":
                 self.tabWidget.setCurrentIndex(0)
             else:  # on pomodoro tab and next is long
                 self.tabWidget.setCurrentIndex(2)
                 self.pomodoros = 0  # reset the loop
 
+            # update labels and secs_to_run for next transition
             self.secs_to_run_and_active_label()
             self.apply_options()
+            # set the timer to wait 5 seconds before starting
+            # dont delay first time
+            self.timer.delayed_start = (True, 5) if not with_button else (False, 0)
             self.timer.start()
 
     def play_select_sound(self):
@@ -124,7 +131,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
 
     def timer_finished_notification(self):
         if self.windowState() & Qt.WindowMinimized:
-            self.tray_icon.showMessage("Done", "Pomodoro timer finished.")
+            self.tray_icon.showMessage("Done", "{0} timer finished.".format(self.active_label[1]))
 
     def restore_tray(self, reason=None):
         if reason == QSystemTrayIcon.Trigger or reason == None:
@@ -172,8 +179,10 @@ class TimerThread(QThread):
         super().__init__(parent)
         self.secs_to_run = 25 * 60  # 25 mins to secs - default
         self.is_running = False
+        self.delayed_start = (False, 0)
 
     def run(self):
+        if self.delayed_start[0] and self.delayed_start[1] > 0: self.sleep(self.delayed_start[1])
         while self.secs_to_run > 0 and self.is_running:
             self.sleep(1)
             if self.is_running: self.secs_to_run -= 1; self.secElapsed.emit()  # when stopped it would run otherwise
