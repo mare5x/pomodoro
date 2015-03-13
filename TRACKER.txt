@@ -55,3 +55,9 @@ planner mode - set start and end time
 
 
 Change done notification to tell which timer was done.
+
+
+Show which pomodoro you're on
+
+
+options implementation

@@ -1,8 +1,8 @@
+import ctypes
+import sys
 from PySide.QtCore import *
 from PySide.QtGui import *
 import main_pomodoro
-import sys
-import ctypes
 
 
 class Pomodoro(QWidget, main_pomodoro.Ui_Form):
@@ -77,6 +77,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             self.timerButton.setText("Start")
             self.timerButton.setStyleSheet("background-color: rgb(0, 255, 0);")
             self.timer.is_running = False
+            self.timer.delayed_start = (False, 0)
             self.timer.quit()
             self.pomodoros = 0
         else:  # now it's started
@@ -113,9 +114,11 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             # update labels and secs_to_run for next transition
             self.secs_to_run_and_active_label()
             self.apply_options()
+
             # set the timer to wait 5 seconds before starting
             # dont delay first time
-            self.timer.delayed_start = (True, 5) if not with_button else (False, 0)
+            delay_time = self.time_options.time_to_secs(self.delayTime.time())
+            self.timer.delayed_start = (True, delay_time) if not with_button else (False, 0)
             self.timer.start()
 
     def play_select_sound(self):
@@ -130,8 +133,10 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         QSound.play(sounds[self.soundBox.currentIndex()])
 
     def timer_finished_notification(self):
-        if self.windowState() & Qt.WindowMinimized:
+        if self.windowState() & Qt.WindowMinimized and self.doneMinimizedCheck.isChecked():
             self.tray_icon.showMessage("Done", "{0} timer finished.".format(self.active_label[1]))
+        elif self.doneNMinimizedCheck.isChecked():
+            QApplication.alert(self)
 
     def restore_tray(self, reason=None):
         if reason == QSystemTrayIcon.Trigger or reason == None:
@@ -141,11 +146,13 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
 
     def changeEvent(self, event):
         if event.type() == QEvent.WindowStateChange:
-            if self.windowState() & Qt.WindowMinimized:
+            if self.windowState() & Qt.WindowMinimized and self.minimizeToTrayCheck.isChecked():
                 event.ignore()
                 QTimer.singleShot(0, self.hide)  # minimize to tray asap
                 self.tray_icon.show()
                 self.tray_icon.showMessage("Minimized", "The app is minimized. Click on the icon to maximize.")
+            elif not self.minimizeToTrayCheck.isChecked():
+                event.accept()
 
 
 class TimeOptions:
