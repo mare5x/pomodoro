@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\main_pomodoro.ui'
 #
-# Created: Sun Mar 15 14:38:46 2015
+# Created: Sun Mar 15 15:32:18 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -33,6 +33,7 @@ class Ui_Form(object):
         self.timerButton.setObjectName("timerButton")
         self.gridLayout_6.addWidget(self.timerButton, 2, 0, 1, 1)
         self.tabWidget = QtGui.QTabWidget(Form)
+        self.tabWidget.setToolTip("")
         self.tabWidget.setElideMode(QtCore.Qt.ElideNone)
         self.tabWidget.setUsesScrollButtons(False)
         self.tabWidget.setDocumentMode(True)
@@ -47,6 +48,7 @@ class Ui_Form(object):
         font = QtGui.QFont()
         font.setPointSize(51)
         self.timerNormLabel.setFont(font)
+        self.timerNormLabel.setToolTip("")
         self.timerNormLabel.setTextFormat(QtCore.Qt.AutoText)
         self.timerNormLabel.setScaledContents(False)
         self.timerNormLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -87,10 +89,14 @@ class Ui_Form(object):
         self.optionsScrollArea.setWidgetResizable(True)
         self.optionsScrollArea.setObjectName("optionsScrollArea")
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -140, 378, 234))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -163, 378, 257))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_7 = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_7.setObjectName("gridLayout_7")
+        self.minimizeToTrayCheck = QtGui.QCheckBox(self.scrollAreaWidgetContents)
+        self.minimizeToTrayCheck.setChecked(True)
+        self.minimizeToTrayCheck.setObjectName("minimizeToTrayCheck")
+        self.gridLayout_7.addWidget(self.minimizeToTrayCheck, 11, 0, 1, 1)
         self.label_4 = QtGui.QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName("label_4")
         self.gridLayout_7.addWidget(self.label_4, 7, 0, 1, 1)
@@ -103,10 +109,6 @@ class Ui_Form(object):
         self.label_3 = QtGui.QLabel(self.scrollAreaWidgetContents)
         self.label_3.setObjectName("label_3")
         self.gridLayout_7.addWidget(self.label_3, 4, 0, 1, 1)
-        self.minimizeToTrayCheck = QtGui.QCheckBox(self.scrollAreaWidgetContents)
-        self.minimizeToTrayCheck.setChecked(True)
-        self.minimizeToTrayCheck.setObjectName("minimizeToTrayCheck")
-        self.gridLayout_7.addWidget(self.minimizeToTrayCheck, 11, 0, 1, 1)
         self.delayTime = QtGui.QTimeEdit(self.scrollAreaWidgetContents)
         self.delayTime.setAlignment(QtCore.Qt.AlignCenter)
         self.delayTime.setTime(QtCore.QTime(0, 0, 5))
@@ -155,6 +157,10 @@ class Ui_Form(object):
         self.shortTimeEdit.setTime(QtCore.QTime(0, 5, 0))
         self.shortTimeEdit.setObjectName("shortTimeEdit")
         self.gridLayout_7.addWidget(self.shortTimeEdit, 2, 1, 1, 1)
+        self.toolTipCheck = QtGui.QCheckBox(self.scrollAreaWidgetContents)
+        self.toolTipCheck.setChecked(True)
+        self.toolTipCheck.setObjectName("toolTipCheck")
+        self.gridLayout_7.addWidget(self.toolTipCheck, 14, 0, 1, 1)
         self.optionsScrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_5.addWidget(self.optionsScrollArea, 6, 1, 1, 1)
         self.tabWidget.addTab(self.optionsTab, "")
@@ -177,6 +183,10 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Simple Pomodoro", None, QtGui.QApplication.UnicodeUTF8))
+        self.timerButton.setToolTip(QtGui.QApplication.translate("Form", "Current pomodoro: 0\n"
+"Pomodoros completed: 0\n"
+"Pomodoros till long break: 4\n"
+"Next transition: Normal", None, QtGui.QApplication.UnicodeUTF8))
         self.timerButton.setText(QtGui.QApplication.translate("Form", "Start", None, QtGui.QApplication.UnicodeUTF8))
         self.timerNormLabel.setText(QtGui.QApplication.translate("Form", "25:00", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.normPTab), QtGui.QApplication.translate("Form", "Normal Pomodoro", None, QtGui.QApplication.UnicodeUTF8))
@@ -184,11 +194,11 @@ class Ui_Form(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.shortPTab), QtGui.QApplication.translate("Form", "Short break", None, QtGui.QApplication.UnicodeUTF8))
         self.timerLongLabel.setText(QtGui.QApplication.translate("Form", "10:00", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.longPTab), QtGui.QApplication.translate("Form", "Long break", None, QtGui.QApplication.UnicodeUTF8))
+        self.minimizeToTrayCheck.setText(QtGui.QApplication.translate("Form", "Minimize to tray", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("Form", "Select sound:", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Form", "Normal pomodoro: ", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("Form", "Short break:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("Form", "Long break:", None, QtGui.QApplication.UnicodeUTF8))
-        self.minimizeToTrayCheck.setText(QtGui.QApplication.translate("Form", "Minimize to tray", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("Form", "Set the delay between transitions:", None, QtGui.QApplication.UnicodeUTF8))
         self.doneMinimizedCheck.setText(QtGui.QApplication.translate("Form", "Show done notification when minimized", None, QtGui.QApplication.UnicodeUTF8))
         self.doneFlashCheck.setText(QtGui.QApplication.translate("Form", "Flash icon when done", None, QtGui.QApplication.UnicodeUTF8))
@@ -199,6 +209,7 @@ class Ui_Form(object):
         self.soundBox.setItemText(3, QtGui.QApplication.translate("Form", "Elevator Ding", None, QtGui.QApplication.UnicodeUTF8))
         self.soundBox.setItemText(4, QtGui.QApplication.translate("Form", "Rooster crow", None, QtGui.QApplication.UnicodeUTF8))
         self.soundBox.setItemText(5, QtGui.QApplication.translate("Form", "None", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolTipCheck.setText(QtGui.QApplication.translate("Form", "Show tool tip", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.optionsTab), QtGui.QApplication.translate("Form", "Options", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc

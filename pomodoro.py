@@ -10,11 +10,11 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         super().__init__(parent)
         self.setupUi(self)
 
-        self.time_options = TimeOptions()
         self.timer = TimerThread()
 
         self.active_label = None, None  # (label, "name")
         self.pomodoros = 0
+        self.pomodoros_completed = 0
 
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QIcon("Icons/tomato.png"))
@@ -32,6 +32,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         self.timer.timerFinished.connect(self.play_select_sound)
         self.timer.timerFinished.connect(self.timer_finished_notification)
         self.timer.timerFinished.connect(self.next_transition)
+        self.timer.timerFinished.connect(self.update_tooltip)
 
     def hide_button_on_options_tab(self):
         if self.tabWidget.currentIndex() == 3:  # hide the button on options tab
@@ -60,13 +61,13 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         """ Determines secs_to_run and the current active label.
         """
         if self.tabWidget.currentIndex() == 0:  # 1st tab starts at 0th index
-            self.timer.secs_to_run = self.time_options.time_to_secs(self.norm_time)
+            self.timer.secs_to_run = TimeOptions.time_to_secs(self.norm_time)
             self.active_label = (self.timerNormLabel, "Pomodoro")
         elif self.tabWidget.currentIndex() == 1:
-            self.timer.secs_to_run = self.time_options.time_to_secs(self.short_time)
+            self.timer.secs_to_run = TimeOptions.time_to_secs(self.short_time)
             self.active_label = (self.timerShortLabel, "Short")
         else:
-            self.timer.secs_to_run = self.time_options.time_to_secs(self.long_time)
+            self.timer.secs_to_run = TimeOptions.time_to_secs(self.long_time)
             self.active_label = (self.timerLongLabel, "Long")
 
     def toggle_timerButton(self):
@@ -80,17 +81,45 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
             self.timer.delayed_start = (False, 0)
             self.timer.quit()
             self.pomodoros = 0
+            self.pomodoros_completed = 0
         else:  # now it's started
             self.timerButton.setText("Stop")
             self.timerButton.setStyleSheet("background-color: rgb(255, 0, 0);")
             self.timer.is_running = True
+            self.update_tooltip()
             if self.transitionCheckBox.isChecked(): self.next_transition(with_button=True)
             else: self.timer.start()
 
     def update_active_label(self):
         # each time signal is emitted, update label for currently active timer
-        time = self.time_options.secs_to_time(self.timer.secs_to_run)
+        time = TimeOptions.secs_to_time(self.timer.secs_to_run)
         self.active_label[0].setText(time.toString())
+
+    def next_active_label(self):
+        if self.pomodoros == 0:
+            return "Short"
+        elif self.active_label[1] == "Pomodoro" and self.pomodoros < 4:
+            return "Short"
+        elif self.active_label[1] == "Short":
+            return "Normal"
+        elif self.active_label[1] == "Long":
+            return "Normal"
+        else:
+            return "Long"
+
+    def update_tooltip(self):
+        if self.toolTipCheck.isChecked():
+            to_long = 4 - self.pomodoros
+            self.timerButton.setToolTip("Current pomodoro:\t\t{0}\n"
+                                        "Pomodoros completed:\t{1}\n"
+                                        "Pomodoros till long break:\t{2}\n"
+                                        "Next transition:\t\t{3}".format(self.pomodoros,
+                                                                         self.pomodoros_completed - 1,
+                                                                         to_long,
+                                                                         self.next_active_label()))
+    def increment_pomodoros(self):
+        self.pomodoros += 1
+        self.pomodoros_completed += 1
 
     def next_transition(self, with_button=False):
         # transition and keep track of normal -> break -> ...
@@ -99,10 +128,10 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
         if self.transitionCheckBox.isChecked():
             if self.pomodoros == 0:
                 self.tabWidget.setCurrentIndex(0)
-                self.pomodoros += 1
+                self.increment_pomodoros()
             elif self.active_label[1] == "Pomodoro" and self.pomodoros != 4:
                 self.tabWidget.setCurrentIndex(1)
-                self.pomodoros += 1
+                self.increment_pomodoros()
             elif self.active_label[1] == "Short":
                 self.tabWidget.setCurrentIndex(0)
             elif self.active_label[1] == "Long":
@@ -117,7 +146,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
 
             # set the timer to wait 5 seconds before starting
             # dont delay first time
-            delay_time = self.time_options.time_to_secs(self.delayTime.time())
+            delay_time = TimeOptions.time_to_secs(self.delayTime.time())
             self.timer.delayed_start = (True, delay_time) if not with_button else (False, 0)
             self.timer.start()
 

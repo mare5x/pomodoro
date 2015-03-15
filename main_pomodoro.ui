@@ -40,6 +40,12 @@
        <pointsize>20</pointsize>
       </font>
      </property>
+     <property name="toolTip">
+      <string>Current pomodoro: 0
+Pomodoros completed: 0
+Pomodoros till long break: 4
+Next transition: Normal</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(0, 255, 0);</string>
      </property>
@@ -50,6 +56,9 @@
    </item>
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="toolTip">
+      <string/>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -79,6 +88,9 @@
           <font>
            <pointsize>51</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string/>
          </property>
          <property name="text">
           <string>25:00</string>
@@ -160,12 +172,22 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-140</y>
+            <y>-163</y>
             <width>378</width>
-            <height>234</height>
+            <height>257</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
+           <item row="11" column="0">
+            <widget class="QCheckBox" name="minimizeToTrayCheck">
+             <property name="text">
+              <string>Minimize to tray</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
            <item row="7" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
@@ -191,16 +213,6 @@
             <widget class="QLabel" name="label_3">
              <property name="text">
               <string>Long break:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="11" column="0">
-            <widget class="QCheckBox" name="minimizeToTrayCheck">
-             <property name="text">
-              <string>Minimize to tray</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -339,6 +351,16 @@
                <minute>5</minute>
                <second>0</second>
               </time>
+             </property>
+            </widget>
+           </item>
+           <item row="14" column="0">
+            <widget class="QCheckBox" name="toolTipCheck">
+             <property name="text">
+              <string>Show tool tip</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
