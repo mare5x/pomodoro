@@ -236,9 +236,9 @@
             </widget>
            </item>
            <item row="13" column="0">
-            <widget class="QCheckBox" name="doneNMinimizedCheck">
+            <widget class="QCheckBox" name="doneFlashCheck">
              <property name="text">
-              <string>Show done notification when not minimized</string>
+              <string>Flash icon when done</string>
              </property>
             </widget>
            </item>
@@ -361,7 +361,7 @@
   <tabstop>transitionCheckBox</tabstop>
   <tabstop>minimizeToTrayCheck</tabstop>
   <tabstop>doneMinimizedCheck</tabstop>
-  <tabstop>doneNMinimizedCheck</tabstop>
+  <tabstop>doneFlashCheck</tabstop>
   <tabstop>optionsScrollArea</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>timerButton</tabstop>

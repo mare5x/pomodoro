@@ -135,7 +135,7 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
     def timer_finished_notification(self):
         if self.windowState() & Qt.WindowMinimized and self.doneMinimizedCheck.isChecked():
             self.tray_icon.showMessage("Done", "{0} timer finished.".format(self.active_label[1]))
-        elif self.doneNMinimizedCheck.isChecked():
+        elif self.doneFlashCheck.isChecked():
             QApplication.alert(self)
 
     def restore_tray(self, reason=None):
@@ -153,6 +153,18 @@ class Pomodoro(QWidget, main_pomodoro.Ui_Form):
                 self.tray_icon.showMessage("Minimized", "The app is minimized. Click on the icon to maximize.")
             elif not self.minimizeToTrayCheck.isChecked():
                 event.accept()
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_F1:
+            self.tabWidget.setCurrentIndex(0)
+        elif event.key() == Qt.Key_F2:
+            self.tabWidget.setCurrentIndex(1)
+        elif event.key() == Qt.Key_F3:
+            self.tabWidget.setCurrentIndex(2)
+        elif event.key() == Qt.Key_F4:
+            self.tabWidget.setCurrentIndex(3)
+        else:
+            event.accept()
 
 
 class TimeOptions:

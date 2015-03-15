@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\main_pomodoro.ui'
 #
-# Created: Fri Mar 13 20:56:31 2015
+# Created: Sun Mar 15 14:38:46 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -119,9 +119,9 @@ class Ui_Form(object):
         self.doneMinimizedCheck = QtGui.QCheckBox(self.scrollAreaWidgetContents)
         self.doneMinimizedCheck.setObjectName("doneMinimizedCheck")
         self.gridLayout_7.addWidget(self.doneMinimizedCheck, 12, 0, 1, 1)
-        self.doneNMinimizedCheck = QtGui.QCheckBox(self.scrollAreaWidgetContents)
-        self.doneNMinimizedCheck.setObjectName("doneNMinimizedCheck")
-        self.gridLayout_7.addWidget(self.doneNMinimizedCheck, 13, 0, 1, 1)
+        self.doneFlashCheck = QtGui.QCheckBox(self.scrollAreaWidgetContents)
+        self.doneFlashCheck.setObjectName("doneFlashCheck")
+        self.gridLayout_7.addWidget(self.doneFlashCheck, 13, 0, 1, 1)
         self.transitionCheckBox = QtGui.QCheckBox(self.scrollAreaWidgetContents)
         self.transitionCheckBox.setChecked(True)
         self.transitionCheckBox.setObjectName("transitionCheckBox")
@@ -170,8 +170,8 @@ class Ui_Form(object):
         Form.setTabOrder(self.soundBox, self.transitionCheckBox)
         Form.setTabOrder(self.transitionCheckBox, self.minimizeToTrayCheck)
         Form.setTabOrder(self.minimizeToTrayCheck, self.doneMinimizedCheck)
-        Form.setTabOrder(self.doneMinimizedCheck, self.doneNMinimizedCheck)
-        Form.setTabOrder(self.doneNMinimizedCheck, self.optionsScrollArea)
+        Form.setTabOrder(self.doneMinimizedCheck, self.doneFlashCheck)
+        Form.setTabOrder(self.doneFlashCheck, self.optionsScrollArea)
         Form.setTabOrder(self.optionsScrollArea, self.tabWidget)
         Form.setTabOrder(self.tabWidget, self.timerButton)
 
@@ -191,7 +191,7 @@ class Ui_Form(object):
         self.minimizeToTrayCheck.setText(QtGui.QApplication.translate("Form", "Minimize to tray", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("Form", "Set the delay between transitions:", None, QtGui.QApplication.UnicodeUTF8))
         self.doneMinimizedCheck.setText(QtGui.QApplication.translate("Form", "Show done notification when minimized", None, QtGui.QApplication.UnicodeUTF8))
-        self.doneNMinimizedCheck.setText(QtGui.QApplication.translate("Form", "Show done notification when not minimized", None, QtGui.QApplication.UnicodeUTF8))
+        self.doneFlashCheck.setText(QtGui.QApplication.translate("Form", "Flash icon when done", None, QtGui.QApplication.UnicodeUTF8))
         self.transitionCheckBox.setText(QtGui.QApplication.translate("Form", "Auto transition between modes?", None, QtGui.QApplication.UnicodeUTF8))
         self.soundBox.setItemText(0, QtGui.QApplication.translate("Form", "Wrist watch Alarm", None, QtGui.QApplication.UnicodeUTF8))
         self.soundBox.setItemText(1, QtGui.QApplication.translate("Form", "Door Bell", None, QtGui.QApplication.UnicodeUTF8))
